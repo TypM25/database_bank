@@ -20,7 +20,7 @@ router.get('/sort/top100/:item/:sorttype', async (req, res) => {
         const item = req.params.item
         const sorttype = req.params.sorttype
 
-        const result = await pool.query(`SELECT * FROM public.bank_data ORDER BY ${item} ${sorttype} LIMIT 100;`);
+        const result = await pool.query(`SELECT * FROM public.bank_data2 ORDER BY ${item} ${sorttype} LIMIT 100;`);
         res.json(result.rows);
     }
 
@@ -34,7 +34,7 @@ router.post('/add/new_data', async (req, res) => {
     const { age, job, marital, education, default: def, balance, housing, loan, contact, day, month, duration, campaign, pdays, previous, poutcome, y } = req.body;
     try {
         await pool.query(
-            'INSERT INTO public.bank_data (age, job, marital, education, "default", balance, housing, loan, contact, day, month, duration, campaign, pdays, previous, poutcome, y) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)',
+            'INSERT INTO public.bank_data2 (age, job, marital, education, "default", balance, housing, loan, contact, day, month, duration, campaign, pdays, previous, poutcome, y) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)',
             [age, job.toLowerCase(), marital, education, def, balance, housing, loan, contact, day, month, duration, campaign, pdays, previous, poutcome, y]
         );
         res.json({
@@ -70,7 +70,7 @@ router.post('/add/new_data', async (req, res) => {
 
 router.get('/filter', async (req, res) => {
     const { job, minBalance, maxBalance } = req.query; 
-    let query = 'SELECT * FROM public.bank_data WHERE 1=1'; 
+    let query = 'SELECT * FROM public.bank_data2 WHERE 1=1'; 
     const queryParams = [];
 
     if (job) {

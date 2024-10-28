@@ -20,7 +20,7 @@ let users = [
 //All_data------------------------------------------------
 router.get('/db', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM public.bank_data')
+    const result = await pool.query('SELECT * FROM public.bank_data2')
     res.json(result.rows)
   }
   catch (error) {
@@ -32,7 +32,7 @@ router.get('/db', async (req, res) => {
 //Table Data------------------------------------------------
 router.get('/db_100', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM public.bank_data WHERE id BETWEEN 1 AND 100;')
+    const result = await pool.query('SELECT * FROM public.bank_data2 WHERE id BETWEEN 1 AND 100;')
     res.json(result.rows)
   }
   catch (error) {
@@ -45,7 +45,7 @@ router.get('/db_100', async (req, res) => {
 router.get('/bar/job/balances', async (req, res) => {
   const selectedJobs = req.query.jobs ? req.query.jobs.split(',') : [];
 
-  let query = `SELECT job, AVG(balance) AS average_income FROM public.bank_data ${selectedJobs.length > 0 ? `WHERE job = ANY($1)` : ''} GROUP BY job;`;
+  let query = `SELECT job, AVG(balance) AS average_income FROM public.bank_data2 ${selectedJobs.length > 0 ? `WHERE job = ANY($1)` : ''} GROUP BY job;`;
 
   try {
     const result = await pool.query(query, selectedJobs.length > 0 ? [selectedJobs] : []);
@@ -70,7 +70,7 @@ router.get('/bar/drilldown/:job', async (req, res) => {
                 ELSE 'Above 3000'
             END AS balance_range,
             COUNT(*) AS total_count
-        FROM public.bank_data
+        FROM public.bank_data2
         WHERE job = $1
         GROUP BY balance_range
         ORDER BY balance_range;
@@ -87,7 +87,7 @@ router.get('/bar/drilldown/:job', async (req, res) => {
 //BarGraph Marital_balances ------------------------------------------------
 router.get('/bar/marital/balances', async (req, res) => {
   try {
-    const result = await pool.query('SELECT marital, AVG(balance) AS average_income FROM public.bank_data GROUP BY marital;')
+    const result = await pool.query('SELECT marital, AVG(balance) AS average_income FROM public.bank_data2 GROUP BY marital;')
     res.json(result.rows)
   }
   catch (error) {
@@ -99,7 +99,7 @@ router.get('/bar/marital/balances', async (req, res) => {
 //PieGraph Loan_House------------------------------------------------
 router.get('/pie/house/loan', async (req, res) => {
   try {
-    const result = await pool.query('SELECT loan, COUNT(*) AS count FROM public.bank_data WHERE housing = \'yes\' GROUP BY loan;');
+    const result = await pool.query('SELECT loan, COUNT(*) AS count FROM public.bank_data2 WHERE housing = \'yes\' GROUP BY loan;');
     res.json(result.rows);
   } catch (error) {
     console.log(error);
@@ -110,7 +110,7 @@ router.get('/pie/house/loan', async (req, res) => {
 //LineGraph age_House------------------------------------------------
 router.get('/scatterplot/age/balance', async (req, res) => {
   try {
-    const result = await pool.query('SELECT age, AVG(balance) AS average_income FROM public.bank_data GROUP BY age ORDER BY age ASC;');
+    const result = await pool.query('SELECT age, AVG(balance) AS average_income FROM public.bank_data2 GROUP BY age ORDER BY age ASC;');
     res.json(result.rows);
   } catch (error) {
     console.log(error);

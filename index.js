@@ -21,6 +21,10 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.get('/users', (req, res) => {
+  res.json(users); //ให้user เห็น
+})
+
 app.listen(PORT, (req, res) => {
   console.log('Suscess to connect server!');
 })

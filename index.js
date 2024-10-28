@@ -22,7 +22,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/users', (req, res) => {
-  res.json(users); //ให้user เห็น
+  res.json(users);
 })
 
 app.listen(PORT, (req, res) => {

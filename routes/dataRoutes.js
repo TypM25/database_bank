@@ -16,6 +16,10 @@ let users = [
   }
 ]
 
+router.get('/users', (req, res) => {
+  res.json(users);
+})
+
 
 //All_data------------------------------------------------
 router.get('/db', async (req, res) => {

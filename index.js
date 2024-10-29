@@ -21,9 +21,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/users', (req, res) => {
-  res.json(users);
-})
+
 
 app.listen(PORT, (req, res) => {
   console.log('Suscess to connect server!');
